@@ -19,9 +19,9 @@ nest_asyncio.apply()
 
 load_dotenv()
 
-gemini_api_key=os.getenv("GEMINI_API_KEY")
+
 groq_api_key=os.getenv("GROQ_API_KEY")
-print("Key loaded:", bool(gemini_api_key))
+
 class HostAgent:
 
     def __init__(self):
@@ -50,7 +50,7 @@ class HostAgent:
             json.dumps({"name": card.name, "description": card.description})
             for card in self.cards.values()
         ]
-        print("agent_info:", agent_info)
+        print("Remote agents discovered:", list(self.cards.keys()))
         self.agents = "\n".join(agent_info) if agent_info else "No friends found"
 
     @classmethod
@@ -94,7 +94,8 @@ class HostAgent:
 
 
         #llm=ChatGoogleGenerativeAI(model="gemini-3.6-flash",api_key=gemini_api_key)
-        new_llm=ChatGroq(
+
+        llm=ChatGroq(
             model="openai/gpt-oss-20b",
             api_key=os.getenv("GROQ_API_KEY"),
             reasoning_format="hidden"
@@ -103,7 +104,7 @@ class HostAgent:
 
         agent=create_agent(
 
-            model=new_llm,
+            model=llm,
             system_prompt=self.root_instruction(),
             tools=[send_message,greet_msg]
         )
@@ -158,6 +159,13 @@ class HostAgent:
             - Do not expose internal implementation details such as A2A requests,
             UUIDs, or connection objects to the user.
             - When reporting a remote agent's response, explain it naturally to the user.
+
+            Formatting rules:
+            - Use plain text only.
+            - Do not use Markdown.
+            - Do not use ** for bold text.
+            - Do not use headings with #.
+            - Use simple bullet points with "-".
             """
     
     
@@ -194,11 +202,6 @@ class HostAgent:
 
         send_response = await client.send_message(request_message)
 
-        print("REMOTE RESPONSE:")
-        print(send_response)
-
-        print("RESPONSE TYPE:")
-        print(type(send_response))
 
         if not send_response:
             return "Remote agent returned no response."
@@ -230,8 +233,13 @@ async def main():
             ]
         }
     )
+    result = response["messages"][-1].content
 
-    print(response)
+    print("\nFINAL RESPONSE:")
+    print(result)
+
+    return result
+
 
 
 if __name__ == "__main__":

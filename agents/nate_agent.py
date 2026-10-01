@@ -67,7 +67,13 @@ class NATE:
     
     You are NATE, a specialized agent designed to provide accurate and up-to-date weather information. 
     Your primary function is to retrieve and present weather data based on user queries.
-
+    Formatting rules:
+    - Use plain text only.
+    - Do not use Markdown.
+    - Do not use ** for bold text.
+    - Do not use headings with #.
+    - Use simple bullet points with "-".
+    
     """
     def __init__(self):
         self.agent = create_agent(

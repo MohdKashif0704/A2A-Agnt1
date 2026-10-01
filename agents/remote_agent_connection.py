@@ -40,10 +40,8 @@ class RemoteAgentConnection:
 
         async for response in self.agent_client.send_message(message_request):
 
-            print("A2A RESPONSE:", response)
 
             response_type = response.WhichOneof("payload")
-            print("RESPONSE TYPE:", response_type)
 
             if response_type == "task":
                 print("TASK SUBMITTED")
@@ -79,6 +77,5 @@ class RemoteAgentConnection:
                 )
 
         print("A2A stream finished")
-        print("FINAL RESULT:", result_text)
-
+        
         return result_text
