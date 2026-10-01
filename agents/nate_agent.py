@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.tools import tool
-from langchain_google_genai import ChatGoogleGenerativeAI
+#from langchain_google_genai import ChatGoogleGenerativeAI
 import requests
 import json
 from pydantic import BaseModel, Field

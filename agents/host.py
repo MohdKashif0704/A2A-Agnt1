@@ -11,7 +11,7 @@ from a2a.client import A2ACardResolver
 from remote_agent_connection import RemoteAgentConnection
 from langchain.agents import create_agent
 from langchain.tools import tool
-from langchain_google_genai import ChatGoogleGenerativeAI
+#from langchain_google_genai import ChatGoogleGenerativeAI
 import nest_asyncio
 from langchain_groq import ChatGroq
 
